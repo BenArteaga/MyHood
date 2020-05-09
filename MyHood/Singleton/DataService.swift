@@ -38,18 +38,34 @@ class DataService {
         NotificationCenter.default.post(Notification(name: Notification.Name(rawValue: "postsLoaded"), object: nil))
     }
     
-    func saveImageAndCreatePath(image: UIImage) {
-        
+    func saveImageAndCreatePath(_ image: UIImage) -> String {
+        //turns image into data
+        let imgData = UIImagePNGRepresentation(image)
+        //makes sure that each time we save an image it will have a unique path name
+        let imgPath = "image\(Date.timeIntervalSinceReferenceDate).png"
+        let fullPath = documentsPathForFileName(imgPath)
+        //writes fullPath to disc
+        try? imgData?.write(to: URL(fileURLWithPath: fullPath), options: [.atomic])
+        //not sure why we are returning imgPath?
+        return imgPath
     }
     
-    func imageForPath(path: String) {
-        
+    func imageForPath(_ path: String) -> UIImage? {
+        let fullPath = documentsPathForFileName(path)
+        let image = UIImage(named: fullPath)
+        return image
     }
     
     func addPost(post: Post) {
         _loadedPosts.append(post)
         savePosts()
         loadPosts()
+    }
+    
+    func documentsPathForFileName(_ name: String) -> String {
+        let paths = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)
+        let fullPath = paths[0] as NSString
+        return fullPath.appendingPathComponent(name)
     }
     
     

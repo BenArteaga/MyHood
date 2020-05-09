@@ -30,7 +30,8 @@ class AddPostVC: UIViewController, UIImagePickerControllerDelegate, UINavigation
     @IBAction func makePostBtnPressed(_ sender: UIButton) {
         //the if statement makes sure that there is something inside of each of text fields and image field
         if let title = titleField.text, let desc = descField.text, let img = postImg.image {
-            let post = Post(imagePath: "", title: title, description: desc)
+            let imgPath = DataService.instance.saveImageAndCreatePath(img)
+            let post = Post(imagePath: imgPath, title: title, description: desc)
             DataService.instance.addPost(post: post)
             dismiss(animated: true, completion: nil)
         }
