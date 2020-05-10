@@ -20,7 +20,6 @@ class ViewPostVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        postImg.layer.cornerRadius = 120
         postLbl.text = title1
         postDesc.text = description1
         postImg.image = image1
