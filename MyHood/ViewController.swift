@@ -37,6 +37,15 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         return DataService.instance.loadedPosts.count
     }
     
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let vc = storyboard?.instantiateViewController(withIdentifier: "ViewPostVC") as? ViewPostVC
+        let post = DataService.instance.loadedPosts[indexPath.row]
+        vc?.image1 = DataService.instance.imageForPath(post.imagePath)!
+        vc?.title1 = post.title
+        vc?.description1 = post.postDesc
+        self.navigationController?.pushViewController(vc!, animated: true)
+    }
+    
     @objc func onPostsLoaded(_ notif: AnyObject) {
         tableView.reloadData()
     }
