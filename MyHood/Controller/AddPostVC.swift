@@ -8,14 +8,19 @@
 
 import UIKit
 
-class AddPostVC: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+class AddPostVC: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextFieldDelegate {
 
     @IBOutlet weak var titleField: UITextField!
     @IBOutlet weak var postImg: UIImageView!
     @IBOutlet weak var descField: UITextField!
     var imagePicker: UIImagePickerController!
     
+//    let tap = UITapGestureRecognizer(target: self, action: #selector(UIView.endEditing))
+//    func addGestureRecognizer(tap)
+    
     override func viewDidLoad() {
+        self.titleField.delegate = self
+        self.descField.delegate = self
         super.viewDidLoad()
         postImg.layer.cornerRadius = 120
         imagePicker = UIImagePickerController()
@@ -45,6 +50,15 @@ class AddPostVC: UIViewController, UIImagePickerControllerDelegate, UINavigation
         let selectedImage = info[UIImagePickerControllerOriginalImage] as! UIImage
         imagePicker.dismiss(animated: true, completion: nil)
         postImg.image = selectedImage
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
+    }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        self.view.endEditing(true)
     }
     
 }
